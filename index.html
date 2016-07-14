@@ -177,7 +177,12 @@
 							<div class="switch female"></div>
 
 							<label class="input-wrapper">
-								<input type="text" name="name-male" value="" placeholder="Введите имя" data-required="true">
+								<input type="text" name="name" value="" 
+								id="form-name"
+								placeholder="Введите имя" 
+								required="true" 
+								data-invalid-error="Имя должно состоять из русских букв"
+								data-default-error="Введите имя">
 							</label>
 
 							<input class="checkbox" type="checkbox" name="is_male" checked id="male-checkbox">
@@ -185,7 +190,7 @@
 						<div class="descr">
 							<h4>Почему такое имя?</h4>
 							<div class="textarea-wrapper">
-								<textarea name="description" cols="30" rows="10"></textarea>
+								<textarea name="description" cols="30" rows="10" id="form-description"></textarea>
 							</div>
 						</div>
 						<div class="submit-wrapper">
@@ -197,10 +202,10 @@
 			<section class="popular" id="popular">
 				<div class="bg"></div>
 				<div class="wrapper">
-					<div class="ttl">Сейчас</br>называют</div>
+					<!-- <div class="ttl">Сейчас</br>называют</div> -->
 					<!--что здесь происходит. ml - мужской пол, fm - женский-->
 					<!--pp1 - pp5 - ранги популярности. от маленького к большому.-->
-					<div class="inner">
+<!-- 					<div class="inner">
 						<div class="ico ml"></div>
 						<div class="ico fm"></div>
 
@@ -233,6 +238,89 @@
 						<span class="ml pp2">Алтай</span>
 						<span class="ml pp1">Кузбасс</span>
 						<span class="ml pp1">Суворов</span>
+					</div>
+ -->
+					<div class="ttl">Популярные</br>имена</div>
+					<div class="list popular-list" data-action="form.json">
+						<div class="list-left">
+							<div class="ico ml"></div>
+							<div class="list-item vote-btn" data-value="Баллу">
+								<div class="fake-btn">голосовать</div>
+								<span>Баллу</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бандерос">
+								<div class="fake-btn">голосовать</div>
+								<span>Бандерос</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бандит">
+								<div class="fake-btn">голосовать</div>
+								<span>Бандит</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бани">
+								<div class="fake-btn">голосовать</div>
+								<span>Бани</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Банни">
+								<div class="fake-btn">голосовать</div>
+								<span>Банни</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бантик">
+								<div class="fake-btn">голосовать</div>
+								<span>Бантик</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бари">
+								<div class="fake-btn">голосовать</div>
+								<span>Бари</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бароша">
+								<div class="fake-btn">голосовать</div>
+								<span>Бароша</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Барселон">
+								<div class="fake-btn">голосовать</div>
+								<span>Барселон</span>
+							</div>
+						</div>
+						<div class="list-right">
+							<div class="ico fm"></div>
+							<div class="list-item vote-btn" data-value="Баллу">
+								<div class="fake-btn">голосовать</div>
+								<span>Баллу</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бандерос">
+								<div class="fake-btn">голосовать</div>
+								<span>Бандерос</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бандит">
+								<div class="fake-btn">голосовать</div>
+								<span>Бандит</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бани">
+								<div class="fake-btn">голосовать</div>
+								<span>Бани</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Банни">
+								<div class="fake-btn">голосовать</div>
+								<span>Банни</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бантик">
+								<div class="fake-btn">голосовать</div>
+								<span>Бантик</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бари">
+								<div class="fake-btn">голосовать</div>
+								<span>Бари</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Бароша">
+								<div class="fake-btn">голосовать</div>
+								<span>Бароша</span>
+							</div>
+							<div class="list-item vote-btn" data-value="Барселон">
+								<div class="fake-btn">голосовать</div>
+								<span>Барселон</span>
+							</div>
+						</div>
+						<div class="clear"></div>
 					</div>
 				</div>
 			</section>
@@ -373,8 +461,8 @@
 			<section class="timeline">
 				<div class="bg"></div>
 				<div class="wrapper">
-					<div class="shadow s1"></div>
-					<div class="current">
+					<!-- <div class="shadow s1"></div> -->
+					<div class="item timeline-item i1">
 						<div class="img">
 							<img src="resources/images/timeline-item.jpg" alt="">
 						</div>
@@ -383,7 +471,25 @@
 							<p>На готовых к выпуску в дикую природу животных надеты GPS ошейники, с помощью которых будет осуществялться их мониторинг. В июне первые леопарды будут выпущены на территории Кавказского биосферного заповедника</p>
 						</div>
 					</div>
-					<div class="shadow s2"></div>
+					<div class="item timeline-item i2 active">
+						<div class="img">
+							<img src="resources/images/timeline-item.jpg" alt="">
+						</div>
+						<div class="text">
+							<div class="year">2016 год</div>
+							<p>На готовых к выпуску в дикую природу животных надеты GPS ошейники, с помощью которых будет осуществялться их мониторинг. В июне первые леопарды будут выпущены на территории Кавказского биосферного заповедника</p>
+						</div>
+					</div>
+					<div class="item timeline-item i3">
+						<div class="img">
+							<img src="resources/images/timeline-item.jpg" alt="">
+						</div>
+						<div class="text">
+							<div class="year">2016 год</div>
+							<p>На готовых к выпуску в дикую природу животных надеты GPS ошейники, с помощью которых будет осуществялться их мониторинг. В июне первые леопарды будут выпущены на территории Кавказского биосферного заповедника</p>
+						</div>
+					</div>
+					<!-- <div class="shadow s2"></div> -->
 				</div>
 			</section>
 			<section class="partners">
