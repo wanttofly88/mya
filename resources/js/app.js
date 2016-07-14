@@ -32,10 +32,13 @@ require([
 	'synthetic-scroll/anchor.view',
 	'form/form.view',
 	'form/gender.view',
+	'form/form-populate.view',
 	'parents/parents.view',
 	'popup/popup.view',
 	'popup/popup-close.view',
-	'parallax/parallax.view'
+	'parallax/parallax.view',
+	'timeline/timeline.view',
+	'popular/popular.view'
 	], function(
 		domReady,
 		touch,
@@ -45,10 +48,13 @@ require([
 		anchor,
 		form,
 		gender,
+		formPopulate,
 		parents,
 		popup,
 		popupClose,
-		parallax
+		parallax,
+		timeline,
+		popular
 	) {
 	domReady(function () {
 		touch.init();
@@ -58,9 +64,12 @@ require([
 		anchor.init();
 		form.init();
 		gender.init();
+		formPopulate.init();
 		parents.init();
 		popup.init();
 		popupClose.init();
 		parallax.init();
+		timeline.init();
+		popular.init();
 	});
 });

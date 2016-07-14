@@ -9,7 +9,7 @@ define(['dispatcher', 'resize/resize.store'], function(dispatcher, store) {
 	var _handleChange = function() {
 		var storeData = store.getData();
 
-		main.style.minHeight = (storeData.height - header.clientHeight - footer.clientHeight) + 'px';
+		main.style.minHeight = (storeData.height - footer.clientHeight) + 'px';
 
 	}
 

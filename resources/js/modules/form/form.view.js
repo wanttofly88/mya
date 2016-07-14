@@ -33,58 +33,28 @@ define(['dispatcher', 'form/form.store', 'form/gender.store', 'utils'], function
 
 	var _handle = function(item) {
 		var form  = item.element;
+		var nameInput = document.getElementById('form-name');
 
-		var validate = function(form) {
-			var result = true;
-			var inputs = form.getElementsByTagName('input');
-			var textareas = form.getElementsByTagName('textarea');
-			var bindedData = false;
-
-			var checkInput = function(input) {
-				if (!input.getAttribute('data-required')) return;
-
-				if (!input.value || input.value === '') {
-					input.parentNode.classList.add('error');
-					result = false;
-					setTimeout(function() {
-						input.parentNode.classList.remove('error');
-					}, 200);
-				}
-			}
-
-			var checkBinded = function(input) {
-				if (!input.getAttribute('data-binded')) return;
-				if (!input.value || input.value === '') return;
-				if (!bindedData) {
-					bindedData = input.value;
+		if (nameInput.setCustomValidity) {
+			nameInput.addEventListener('input', function(e) {
+				nameInput.setCustomValidity('');
+			});
+			nameInput.addEventListener('invalid', function(e) {
+				if (nameInput.value === '') {
+					nameInput.setCustomValidity(nameInput.getAttribute('data-default-error'));
 				} else {
-					if (input.value !== bindedData) {
-						input.parentNode.classList.add('error');
-						result = false;
-					}
+					nameInput.setCustomValidity(nameInput.getAttribute('data-invalid-error'));
 				}
-			}
-
-			for (var i = 0; i < inputs.length; i++) {
-				checkInput(inputs[i]);
-				checkBinded(inputs[i]);
-			}
-			for (var i = 0; i < textareas.length; i++) {
-				checkInput(textareas[i]);
-				checkBinded(textareas[i]);
-			}
-
-			return result;
+			});
 		}
 
 		item.element.addEventListener('submit', function(e) {
 			var action = form.action;
-			var validated;
 			var data;
+			
+			if (nameInput.value)
 
-			validated = validate(form);
-
-			if (!validated || item.status !== 'waiting') {
+			if (item.status !== 'waiting') {
 				e.preventDefault();
 				return;
 			}
@@ -98,6 +68,12 @@ define(['dispatcher', 'form/form.store', 'form/gender.store', 'utils'], function
 				type: 'ajax-form-send',
 				id: item.id
 			});
+
+			if ('localStorage' in window && window['localStorage'] !== null) {
+				localStorage.setItem('form.name', data.get('name'));
+				localStorage.setItem('form.description', data.get('description'));
+				localStorage.setItem('form.male', data.get('is_male'));
+			}
 
 			// //реальный код-----------------------------------------
 			utils.ajax.send(action, function(response) {
@@ -118,72 +94,30 @@ define(['dispatcher', 'form/form.store', 'form/gender.store', 'utils'], function
 					});
 
 					item.element.classList.add('hidden');
+
+					if ('localStorage' in window && window['localStorage'] !== null) {
+						localStorage.clear();
+					}
 				}
-				if (json.hasOwnProperty('status') && json.status === 'error') {
+				if (json.hasOwnProperty('status') && json.status === 'social-error') {
 					dispatcher.dispatch({
 						type: 'popup-open',
 						id: 'register-popup'
 					});
+
+					if ('localStorage' in window && window['localStorage'] !== null) {
+						localStorage.setItem('form.name', data.get('name'));
+						localStorage.setItem('form.description', data.get('description'));
+						localStorage.setItem('form.male', data.get('is_male'));
+					}
 				}
-				// if (!json.hasOwnProperty('status') || json.status === 'error' || json.status === 'success-reset') {
-				// 	setTimeout(function() {
-				// 		dispatcher.dispatch({
-				// 			type: 'ajax-form-reset',
-				// 			id: item.id
-				// 		});
-				// 	}, 3000);
-				// }
+				if (!json.hasOwnProperty('status') || json.status === 'error') {
+					item.element.classList.add('hidden');
+					setTimeout(function() {
+						item.element.classList.remove('hidden');
+					}, 3000);
+				}
 			}, 'POST', data, true);
-			//-----------------------------------------------------
-
-			//временная заглушка для клиента-----------------------
-			// var testObj = {
-			// 	status:   'error',
-			// 	response: 'Отправка успешна'
-			// }
-
-			// var testJSON = JSON.stringify(testObj);
-
-			// setTimeout(function() {
-			// 	var json = testObj;
-			// 	// item.status = 'submitted';
-
-			// 	dispatcher.dispatch({
-			// 		type: 'ajax-form-submit',
-			// 		id: item.id,
-			// 		response: json
-			// 	});
-			// 	dispatcher.dispatch({
-			// 		type: 'ajax-server-responce',
-			// 		response: json
-			// 	});
-
-			// 	if (json.hasOwnProperty('status') && json.status === 'success') {
-			// 		dispatcher.dispatch({
-			// 			type: 'popup-open',
-			// 			id: 'thanks-popup'
-			// 		});
-
-			// 		item.element.classList.add('hidden');
-			// 	}
-
-			// 	if (json.hasOwnProperty('status') && json.status === 'error') {
-			// 		dispatcher.dispatch({
-			// 			type: 'popup-open',
-			// 			id: 'register-popup'
-			// 		});
-			// 	}
-
-			// 	if (!testObj.hasOwnProperty('status') || testObj.status === 'error' || testObj.status === 'success-reset') {
-			// 		setTimeout(function() {
-			// 			dispatcher.dispatch({
-			// 				type: 'ajax-form-reset',
-			// 				id: item.id
-			// 			});
-			// 		}, 3000);
-			// 	}
-			// }, 2000);
-			//----------------------------------------------------
 
 
 		}, false);
